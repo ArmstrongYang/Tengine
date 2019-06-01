@@ -29,6 +29,19 @@
 extern "C" {
 #endif
 
+struct fp16_pack{
+   unsigned short frac:10;
+   unsigned char exp: 5;
+   unsigned char sign:1;
+} __attribute__((packed));
+
+struct fp32_pack{
+   unsigned int frac:23;
+   unsigned char exp: 8;
+   unsigned char sign:1;
+} __attribute__((packed));
+
+typedef struct fp16_pack __fp16;
 
 #ifdef __ARM_ARCH
 
@@ -44,22 +57,7 @@ extern "C" {
 	    f;			\
 	})
 
-
 #else
-
-struct fp16_pack{
-   unsigned short frac:10;
-   unsigned char exp: 5;
-   unsigned char sign:1;
-} __attribute__((packed));
-
-struct fp32_pack{
-   unsigned int frac:23;
-   unsigned char exp: 8;
-   unsigned char sign:1;
-} __attribute__((packed));
-
-typedef struct fp16_pack __fp16;
 
 static inline float fp16_to_fp32(__fp16 data)
 {
